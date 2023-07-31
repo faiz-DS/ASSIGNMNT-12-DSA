@@ -1,0 +1,35 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def find_nth_from_end(head, n):
+    if head is None:
+        return -1
+
+    first_pointer = head
+    second_pointer = head
+
+    # Move the first_pointer N nodes ahead
+    for i in range(n):
+        if first_pointer is None:
+            # N is greater than the number of nodes in the list
+            return -1
+        first_pointer = first_pointer.next
+
+    # Move both pointers until first_pointer reaches the end
+    while first_pointer:
+        first_pointer = first_pointer.next
+        second_pointer = second_pointer.next
+
+    return second_pointer.val
+
+# Test example 1
+head1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8, ListNode(9)))))))))
+
+print("Example 1 Output:", find_nth_from_end(head1, 2))
+
+# Test example 2
+head2 = ListNode(10, ListNode(5, ListNode(100, ListNode(5))))
+
+print("Example 2 Output:", find_nth_from_end(head2, 5))

@@ -1,0 +1,63 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def skip_m_delete_n(head, M, N):
+    if not head or M <= 0 or N <= 0:
+        return head
+
+    current = head
+    prev = None
+
+    while current:
+        # Skip M nodes
+        for i in range(M):
+            if current is None:
+                return head
+            prev = current
+            current = current.next
+
+        # Delete N nodes
+        for i in range(N):
+            if current is None:
+                break
+            current = current.next
+
+        # Link the previous node to the next node after deletion
+        prev.next = current
+
+    return head
+
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.val, end=" ")
+        current = current.next
+    print()
+
+# Test example 1
+head1 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8))))))))
+print("Example 1 Input:")
+print_linked_list(head1)
+head1 = skip_m_delete_n(head1, 2, 2)
+print("Example 1 Output:")
+print_linked_list(head1)
+
+# Test example 2
+head2 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8, ListNode(9, ListNode(10))))))))))
+
+print("Example 2 Input:")
+print_linked_list(head2)
+head2 = skip_m_delete_n(head2, 3, 2)
+print("Example 2 Output:")
+print_linked_list(head2)
+
+# Test example 3
+head3 = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8, ListNode(9, ListNode(10))))))))))
+
+print("Example 3 Input:")
+print_linked_list(head3)
+head3 = skip_m_delete_n(head3, 1, 1)
+print("Example 3 Output:")
+print_linked_list(head3)

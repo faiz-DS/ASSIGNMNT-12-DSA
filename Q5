@@ -1,0 +1,74 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def detect_and_remove_loop(head):
+    if head is None or head.next is None:
+        return
+
+    slow_pointer = head
+    fast_pointer = head
+
+    # Detect the loop using Floyd's Cycle Detection algorithm
+    while fast_pointer and fast_pointer.next:
+        slow_pointer = slow_pointer.next
+        fast_pointer = fast_pointer.next.next
+        if slow_pointer == fast_pointer:
+            break
+
+    # If there is no loop, return
+    if slow_pointer != fast_pointer:
+        return
+
+    # Find the start of the loop
+    slow_pointer = head
+    while slow_pointer != fast_pointer:
+        slow_pointer = slow_pointer.next
+        fast_pointer = fast_pointer.next
+
+    # Find the node that is pointing to the start of the loop
+    while fast_pointer.next != slow_pointer:
+        fast_pointer = fast_pointer.next
+
+    # Unlink the last node pointing to the start of the loop
+    fast_pointer.next = None
+
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.val, end=" ")
+        current = current.next
+    print()
+
+# Test example 1
+head1 = ListNode(1, ListNode(3, ListNode(4)))
+tail1 = ListNode(0)
+head1.next.next.next = tail1
+tail1.next = head1.next  # Creating a loop
+
+print("Example 1 Input:")
+print_linked_list(head1)
+detect_and_remove_loop(head1)
+print("Example 1 Output:")
+print_linked_list(head1)
+
+# Test example 2
+head2 = ListNode(1, ListNode(8, ListNode(3, ListNode(4))))
+
+print("Example 2 Input:")
+print_linked_list(head2)
+detect_and_remove_loop(head2)
+print("Example 2 Output:")
+print_linked_list(head2)
+
+# Test example 3
+head3 = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
+tail3 = head3.next.next.next
+tail3.next = head3.next  # Creating a loop
+
+print("Example 3 Input:")
+print_linked_list(head3)
+detect_and_remove_loop(head3)
+print("Example 3 Output:")
+print_linked_list(head3)
